@@ -9,10 +9,30 @@ void task_1(void); //Exercise 1
 void task_2(void); //Exercise 2
 void task_3(void); //Exercise 3
 void task_4(void); //Exercise 4
+void print_array(int *array, int sz);
 
 int main(int argc, char **argv) {
+    printf("--------------------- Exercise 1 ---------------------------\n");
+    printf("Enter text consisting of Latin letters and numbers and ending with a dot:\n");
+    task_1();
+    printf("------------------------------------------------------------\n");
+    printf("--------------------- Exercise 2 ---------------------------\n");
+    task_2();
+    printf("------------------------------------------------------------\n");
+    printf("--------------------- Exercise 3 ---------------------------\n");
+    task_3();
+    printf("------------------------------------------------------------\n");
+    printf("--------------------- Exercise 4 ---------------------------\n");
     task_4();
+    printf("------------------------------------------------------------\n");
     return 0;
+}
+
+void print_array(int *array, int sz){
+    for (int i = 0; i < sz; ++i) {
+        printf("%d ", array[i]);
+    }
+    printf("\n");
 }
 
 void task_1(void) {
@@ -32,47 +52,43 @@ void task_1(void) {
             max_char = ctr;
         }
     }
-    printf("Max: %d\n", max_char);
+    printf("The most common number: %d\n", max_char);
 }
 
 void task_2(void) {
     int sz = 10;
     int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
     int tmp = array[0];
-    for (int i = 0; i < sz; ++i) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
+    printf("Initial array:\n");
+    print_array(array, sz);
     for (int i = 0; i < sz - 1 ; ++i) {
         array[i] = array[i + 1];
     }
     array[sz - 1] = tmp;
-    for (int i = 0; i < sz; ++i) {
-       printf("%d ", array[i]);
-    }
 
+    printf("Cycle left an array by 1 element:\n");
+    print_array(array, sz);
 }
 
 void task_3(void){
     int sz = 10;
     int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-    for (int i = 0; i < sz; ++i) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
+    printf("Initial array:\n");
+    print_array(array, sz);
     for (int i = 0; i < sz / 2 ; ++i) {
         int tmp = array[i];
         array[i] = array[sz - 1 -i];
         array[sz - 1 -i] = tmp;
     }
-    for (int i = 0; i < sz; ++i) {
-        printf("%d ", array[i]);
-    }
+    printf("Reverse Array:\n");
+    print_array(array, sz);
 }
 
 void task_4(void){
     int sz = 10;
     int array[10] = {4, 2, 5, 1, 0, 3, 7, 8, 9, 0};
+    printf("Initial array:\n");
+    print_array(array, sz);
     for (int j = 0; j < sz - 1; ++j) {
         for (int i = 0; i < sz - i - 1 ; ++i) {
             if (array[i] > array[i + 1]){
@@ -82,8 +98,6 @@ void task_4(void){
             }
         }
     }
-
-    for (int i = 0; i < sz; ++i) {
-        printf("%d ", array[i]);
-    }
+    printf("Ascending sorted array:\n");
+    print_array(array, sz);
 }
