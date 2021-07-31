@@ -40,7 +40,7 @@ void task_1(void) {
     int chars[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     int max = chars[0];
     int ctr;
-    int max_char;
+    int max_char = 10;
     while ((input = getchar()) != '.') {
         if (input >= '0' && input <= '9') {
             chars[(input - '0')] = chars[(input - '0')] + 1;
@@ -52,7 +52,11 @@ void task_1(void) {
             max_char = ctr;
         }
     }
-    printf("The most common number: %d\n", max_char);
+    if (max_char != 10){
+        printf("The most common number: %d\n", max_char);
+    } else{
+        printf("There are no numbers in the line\n");
+    }
 }
 
 void task_2(void) {
