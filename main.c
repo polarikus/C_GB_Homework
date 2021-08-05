@@ -1,106 +1,107 @@
 #include <stdio.h>
+#include <inttypes.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+#include <string.h>
 
+//Lesson 9
 
+int32_t str_sum_digits(const char *cs);
 
-//Lesson 8
+bool test_my_function();
 
-void task_1(void); //Exercise 1
-void task_2(void); //Exercise 2
-void task_3(void); //Exercise 3
-void task_4(void); //Exercise 4
-void print_array(int *array, int sz);
+int32_t schet(int32_t num);
+
+char* concat(const char *s1, const char *s2);
+
 
 int main(int argc, char **argv) {
-    printf("--------------------- Exercise 1 ---------------------------\n");
-    printf("Enter text consisting of Latin letters and numbers and ending with a dot:\n");
-    task_1();
-    printf("------------------------------------------------------------\n");
-    printf("--------------------- Exercise 2 ---------------------------\n");
-    task_2();
-    printf("------------------------------------------------------------\n");
-    printf("--------------------- Exercise 3 ---------------------------\n");
-    task_3();
-    printf("------------------------------------------------------------\n");
-    printf("--------------------- Exercise 4 ---------------------------\n");
-    task_4();
-    printf("------------------------------------------------------------\n");
+    //char str[100] = "21474642 21473647";
+    //printf("%"PRId32"\n",str_sum_digits(str));
+    for (int i = 0; i < 100; ++i) {
+        if (test_my_function() == false){
+            printf("Function not work!!\n");
+        }
+    }
+    printf("Test complete!");
+
     return 0;
 }
 
-void print_array(int *array, int sz){
-    for (int i = 0; i < sz; ++i) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
-}
-
-void task_1(void) {
-    char input;
-    int chars[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int max = chars[0];
-    int ctr;
-    int max_char = 10;
-    while ((input = getchar()) != '.') {
-        if (input >= '0' && input <= '9') {
-            chars[(input - '0')] = chars[(input - '0')] + 1;
-        }
-    }
-    for (ctr = 0; ctr < 10; ctr++) {
-        if (chars[ctr] > max) {
-            max = chars[ctr];
-            max_char = ctr;
-        }
-    }
-    if (max_char != 10){
-        printf("The most common number: %d\n", max_char);
-    } else{
-        printf("There are no numbers in the line\n");
-    }
-}
-
-void task_2(void) {
-    int sz = 10;
-    int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-    int tmp = array[0];
-    printf("Initial array:\n");
-    print_array(array, sz);
-    for (int i = 0; i < sz - 1 ; ++i) {
-        array[i] = array[i + 1];
-    }
-    array[sz - 1] = tmp;
-
-    printf("Cycle left an array by 1 element:\n");
-    print_array(array, sz);
-}
-
-void task_3(void){
-    int sz = 10;
-    int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-    printf("Initial array:\n");
-    print_array(array, sz);
-    for (int i = 0; i < sz / 2 ; ++i) {
-        int tmp = array[i];
-        array[i] = array[sz - 1 -i];
-        array[sz - 1 -i] = tmp;
-    }
-    printf("Reverse Array:\n");
-    print_array(array, sz);
-}
-
-void task_4(void){
-    int sz = 10;
-    int array[10] = {4, 2, 5, 1, 0, 3, 7, 8, 9, 0};
-    printf("Initial array:\n");
-    print_array(array, sz);
-    for (int j = 0; j < sz - 1; ++j) {
-        for (int i = 0; i < sz - i - 1 ; ++i) {
-            if (array[i] > array[i + 1]){
-                int tmp = array[i];
-                array[i] = array[i + 1];
-                array[i+1] = tmp;
+int32_t str_sum_digits(const char *cs){
+    int64_t summStr = 0;
+    int64_t tmp = 0;
+    int32_t ctr = 0;
+    while (cs[ctr]){
+        if (cs[ctr] >= '0' && cs[ctr] <= '9'){
+            if (tmp == 0){
+                tmp = cs[ctr] - '0';
+            } else{
+                tmp = (tmp * 10) + cs[ctr] - '0';
             }
         }
+        if (cs[ctr] == ' '){
+            if (summStr + tmp > 2147483647 || summStr + tmp < -2147483648){
+                printf("Error: The sum of numbers is greater than the maximum or minimum allowed type int32_t");
+                exit(1);
+            }
+            summStr = summStr + tmp;
+            tmp = 0;
+        }
+        ctr ++;
     }
-    printf("Ascending sorted array:\n");
-    print_array(array, sz);
+    if (summStr + tmp > 2147483647 || summStr + tmp < -2147483648){
+        printf("Error: The sum of numbers is greater than the maximum or minimum allowed type int32_t");
+        exit(1);
+    }
+    summStr = summStr + tmp;
+    return (int32_t)summStr;
 }
+int32_t schet(int32_t num)
+{
+    int32_t i;
+    for (i=0; num!=0; i++, num=num/10){}
+
+    return i;
+};
+
+char* concat(const char *s1, const char *s2)
+{
+    char *result = malloc(strlen(s1) + strlen(s2) + 1);
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
+}
+
+bool test_my_function(){
+    int32_t numbers[3];
+    int64_t resultSumm = 0;
+    int32_t funcSumm = 0;
+    char* resultString = "";
+    srand(time(NULL));
+    for (int8_t i = 0; i < 3; ++i) {
+        int32_t N = 0;
+        char string[N];
+        int32_t tmp = rand() % 700000;
+        numbers[i] = tmp;
+        resultSumm += tmp;
+        N = schet(tmp) + 1;
+        itoa(tmp, string, 10);
+        if (i == 0){
+            resultString = concat(resultString, string);
+        } else{
+            resultString = concat(resultString, concat(" ", string));
+        }
+
+    }
+    funcSumm = str_sum_digits(resultString);
+    free(resultString);
+    if (funcSumm != resultSumm){
+        return false;
+    }
+
+    return true;
+
+}
+
