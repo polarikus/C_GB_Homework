@@ -5,8 +5,10 @@
 
 
 int main(int argc, char **argv) {
-    char test;
-    cp_file("../test.txt", "../test2.txt");
+    int result = cp_file("../test.txt", "../test2.txt");
+    if(result != 0){
+        perror("Error copy file");
+    }
     return 0;
 }
 

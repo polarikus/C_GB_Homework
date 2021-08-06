@@ -3,36 +3,40 @@
 //
 #include "file.h"
 #include <stdio.h>
-#include <stdlib.h>
+#include <errno.h>
 
-void cp_file(const char source[], const char destination[]){
+int cp_file(const char source[], const char destination[]){
 
-    printf("source: %s destination: %s\n", source, destination);
-    FILE *f;
-    int N = 0;
-    char buffer[19];
-    f = fopen(source, "rb");
-    signed char c;
+    char   buffer[MAX_BSZ];
+    int err;
+    size_t size, len;
+    FILE*  fout, *fin;
 
-    if (f == NULL){
-        perror("get_in_file: file not found");
-        exit(-1);
+    if((fin = fopen(source, "rb")) == NULL)
+        return errno;
+
+    if((fout = fopen(destination, "wb")) == NULL){
+        err = errno;
+        fclose(fin);
+        return err;
     }
-    int ctr = 0;
-    while ((c= fgetc(f)) !=EOF){
-        buffer[ctr] = c;
-        ctr++;
+
+    err = 0;
+    while(((size = fread(buffer, sizeof(char), MAX_BSZ, fin)) > 0) && ((err = ferror(fin)) == 0)){
+        len = fwrite(buffer, sizeof(char), size, fout);
+        if((len != size) || (ferror(fout) != 0)){
+            err = ferror(fout);
+            break;
+        }
     }
-    buffer[ctr] = 0;
-    fclose(f);
-    f = fopen(destination, "wb");
-    if (f == NULL){
-        perror("get_in_file: file not found");
-        exit(-1);
-    }
-    fprintf(f, "%s", buffer);
-    fclose(f);
-    printf("%s", buffer);
+    printf("Copy done. Transfered %zu bytes", len);
+
+    fclose(fin);
+    fclose(fout);
+
+    return err;
+
+
 }
 
 
