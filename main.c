@@ -1,15 +1,15 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "src/file_sorce/file.h"
-//Lesson 10
-
+#include <dirent.h>
+#include <stdbool.h>
+#include <dir.h>
+//Lesson 11
 
 int main(int argc, char **argv) {
-    int result = cp_file("../test.txt", "../test2.txt");
-    if(result != 0){
-        perror("Error copy file");
+    if(argv[1]){
+        ls_files(argv[1]);
+    } else{
+        ls_files(".");
     }
-    return 0;
 }
 
 
