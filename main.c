@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <dirent.h>
-#include <stdbool.h>
 #include <dir.h>
 //Lesson 11
 
